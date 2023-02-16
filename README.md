@@ -25,75 +25,14 @@ homeworks-1.3
 
 ### Задание 1. Создать Deployment и обеспечить доступ к репликам приложения из другого Pod'а
 
-#### Решение
+### Решение
 
 1. Создать Deployment приложения состоящего из двух контейнеров - nginx и multitool. Решить возникшую ошибку
-- мой файл Deployment. Создает Deployment приложения nginx, multitool и сервис nginx-svc привязанный к Deployment nginx по метке labels.
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: netology-deployment
-  labels:
-    app: main
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: main
-  template:
-    metadata:
-      labels:
-        app: main
-    spec:
-      containers:
-      - name: nginx
-        image: nginx:1.19.1
-        ports:
-        - containerPort: 80
----
+ 
+#### Мой файл Deployments. Создает Deployment приложения nginx, multitool и сервис nginx-svc привязанный к Deployment nginx по метке labels.
 
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: multitool
-  labels:
-    app: multitool
-  namespace: default
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: multitool
-  template:
-    metadata:
-      labels:
-        app: multitool
-    spec:
-      containers:
-        - image: wbitt/network-multitool
-          imagePullPolicy: IfNotPresent
-          name: network-multitool
-          resources:
-            limits:
-              cpu: 200m
-              memory: 512Mi
-            requests:
-              cpu: 100m
-              memory: 256Mi
----
+- [my-deployments.yaml](main/my-deployments.yaml)
 
-apiVersion: v1
-kind: Service
-metadata:
-  name: nginx-svc
-spec:
-  ports:
-    - name: web
-      port: 80
-  selector:
-    app: main
-```
 ```bash
 $ kubectl get deployments
 NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
@@ -180,7 +119,7 @@ Commercial support is available at
 
 ### Задание 2. Создать Deployment и обеспечить старт основного контейнера при выполнении условий
 
-#### Решение
+### Решение
 
 1. Создать Deployment приложения nginx и обеспечить старт контейнера только после того, как будет запущен сервис этого приложения
 
